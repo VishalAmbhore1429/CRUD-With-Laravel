@@ -12,7 +12,7 @@ Route::post('product',[ProductController::class,'save']);
 
 Route::post('/update/{id}', [ProductController::class, 'update']);
 
-Route::post('/delete/{id}', [ProductController::class, 'delete']);
+Route::delete('/delete/{id}', [ProductController::class, 'delete']);
 
 Route::post('getAllProducts', [ProductController::class, 'getAllProducts']);
 
