@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->text('descreption');
             $table->decimal('price',8,2);
+            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -25,6 +26,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('products');
+        // Schema::dropIfExists('products');
+        Schema::table('posts', function (Blueprint $table) {
+            $table->dropColumn('deleted_at'); // Removes the deleted_at column
+        });
     }
 };

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Models\ProductDetail;
 
 class ProductController extends Controller
 {
@@ -14,15 +15,29 @@ class ProductController extends Controller
             'name' => 'required',
             'descreption' => 'required',
             'price' => 'required|numeric',
+            'pid'=> 'numeric|required'
         ]);
 
         $product = Product::create([
             'name' => $validateData['name'],
             'descreption' => $validateData['descreption'],
-            'price' => $validateData['price']
+            'price' => $validateData['price'],
+            'product_id'=>$validateData['pid']
         ]);
 
-        return response()->json(['message' => 'Product saved successfully'],200);
+        $productData = ProductDetail::find($validateData['pid']);
+         if($productData){
+
+            $data = [
+                "id" => $productData->id,
+                "name" => $productData->name,
+                "price" => $productData->price,
+            ];
+         }
+        
+
+        return response()->json(['message' => 'Product saved successfully',
+                                 'product' => $data],200);
     }
 
     public function update(Request $request, $id){
